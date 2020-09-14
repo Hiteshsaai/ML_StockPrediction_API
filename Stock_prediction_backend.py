@@ -12,6 +12,9 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
+import pystan
+from fbprophet import Prophet
 
 
 # Creating a stock_data class to return the stock data for which it was searched.
@@ -58,36 +61,52 @@ class stock_data:
             stock_symbol = result[0]['symbol']
             return stock_symbol
         else:
-            return "Incorrect company name"
+            return 0
 
 
 
 
-    def get_stock_data(self, compToken):
+    def get_stock_data(self, compToken, compName):
         # <== that's all it takes :-)
         yf.pdr_override() 
 
         # download dataframe using pandas_datareader
-        data = pdr.get_data_yahoo(compToken, start="2020-01-01", end="2020-08-30")
+        stock_price = pdr.get_data_yahoo(compToken, start="2018-01-01", end="2020-08-30")
         
+        close_price = stock_price.drop(['Open', 'High', 'Low', 'Adj Close', 'Volume'], 1)
+
+        return 
+
+        # plt.figure(figsize=(16,8))
+        # plt.title(compName.upper(), fontsize = 18)
+        # plt.xlabel('Days', fontsize= 18)
+        # plt.ylabel('Close Price USD ($)', fontsize = 18)
+        # plt.plot(close_price['Close'])
+        # plt.show()
+
+
 
 # <== that's all it takes :-)
 yf.pdr_override() 
 
 # download dataframe using pandas_datareader
-stock_price = pdr.get_data_yahoo("TSLA", start="2020-01-01", end="2020-08-30")
+stock_price = pdr.get_data_yahoo("GOOGL", start="2018-01-01", end="2020-08-30")
+
+close_price = stock_price.drop(['Open', 'High', 'Low', 'Adj Close', 'Volume'], 1)
+
+
+print(close_price['Close'].head())
 
 
 
-plt.figure(figsize=(16,8))
-plt.title('Tesla', fontsize = 18)
-plt.xlabel('Days', fontsize= 18)
-plt.ylabel('Close Price USD ($)', fontsize = 18)
-plt.plot(stock_price['Close'])
-plt.show()
 
 
 
-# # Main method to run the code
+# Main method to run the code
 # if __name__ == "__main__":
-#     print(stock_data().get_stockSymbol("facebook"))
+#     compName = sys.argv[1]
+#     if compName:
+#         compTicker = stock_data().get_stockSymbol(compName)
+#         print(f'\n {compName} \n')
+#         print(stock_data().get_stock_data(compTicker, compName ))
+
