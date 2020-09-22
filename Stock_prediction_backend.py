@@ -121,8 +121,6 @@ class stock_data:
 
         return result
 
-
-
 # Main method to run the code
 if __name__ == "__main__":
 
