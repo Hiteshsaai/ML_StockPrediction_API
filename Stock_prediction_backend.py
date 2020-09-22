@@ -1,21 +1,14 @@
-# Required Imports
-
-import numpy as np
+# Importing the required libraries
+import numpy as np 
 from urllib.request import urlopen
 import json
 import ast
 import sys
 import yfinance as yf
-from datetime import datetime
 from pandas_datareader import data as pdr
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
-import pystan
+from datetime import datetime
 from fbprophet import Prophet
-
+import json
 
 # Creating a stock_data class to return the stock data for which it was searched.
 class stock_data:
@@ -46,7 +39,9 @@ class stock_data:
 
     def get_stockSymbol(self, compName):
 
-        """To get the Stock Symbol/Token Name"""
+        """To get the Stock Symbol/Token Name 
+        we are using the YahooFinance API"""
+
         compName = compName.strip()
         check_space = compName.split(' ')
         if len(check_space) > 1:
@@ -65,48 +60,82 @@ class stock_data:
 
 
 
+    def get_company_prediction(self, comp_ticker, num_days_to_predict):
 
-    def get_stock_data(self, compToken, compName):
-        # <== that's all it takes :-)
-        yf.pdr_override() 
+        """
+        Getting the stock data from yfinance and using it 
+        to predicted the outputs by using 
+        fb prophet library and storing the date, inputdata and predicted data in a json formate 
+        """
+
+        
+        result = {}
+
+        # Generating Today's date for the uptodate record
+        curr_date = datetime.today().strftime('%Y-%m-%d')
 
         # download dataframe using pandas_datareader
-        stock_price = pdr.get_data_yahoo(compToken, start="2018-01-01", end="2020-08-30")
+        # data = pdr.get_data_yahoo(comp_ticker, start="2019-01-01", end= curr_d1)
+        data = yf.download(comp_ticker, start="2018-01-01", end=curr_date,)
+
+        # Selecting only the closing price for the model
+        close_price = data[['Close']]
+
+        # Making date as a column from index
+        date_index = list(close_price.index)
         
-        close_price = stock_price.drop(['Open', 'High', 'Low', 'Adj Close', 'Volume'], 1)
-
-        return 
-
-        # plt.figure(figsize=(16,8))
-        # plt.title(compName.upper(), fontsize = 18)
-        # plt.xlabel('Days', fontsize= 18)
-        # plt.ylabel('Close Price USD ($)', fontsize = 18)
-        # plt.plot(close_price['Close'])
-        # plt.show()
+        close_price.insert(1,'Date', date_index, True)
 
 
+        # Rename the features: These names are NEEDED for the model fitting
+        close_price = close_price.rename(columns = {"Date":"ds","Close":"y"}) #renaming the columns of the dataset
 
-# <== that's all it takes :-)
-yf.pdr_override() 
+        # Fitting the prophet model
+        m = Prophet(daily_seasonality = True) # the Prophet class (model)
+        m.fit(close_price) # fit the model using all data
 
-# download dataframe using pandas_datareader
-stock_price = pdr.get_data_yahoo("GOOGL", start="2018-01-01", end="2020-08-30")
+        future = m.make_future_dataframe(periods= num_days_to_predict) #we need to specify the number of days in future
+        prediction = m.predict(future)
+        
+        date = list(prediction['ds'])
+        
+        #Converting the date from timestamp to string formate
+        
+        date_in_str = []
+        for d in date:
+            d = str(d).split(' ')[0]
+            
+            date_in_str.append(d)
 
-close_price = stock_price.drop(['Open', 'High', 'Low', 'Adj Close', 'Volume'], 1)
+        stock_data = list(prediction['yhat'].iloc[:num_days_to_predict])
 
+        pred_data = list(prediction['yhat'].iloc[-num_days_to_predict:])
+        
+        result['date'] =  date_in_str
+        
+        result['stock_values'] = stock_data
+        
+        result['stock_pred_values'] = pred_data
 
-print(close_price['Close'].head())
+        result = json.dumps(result)
 
-
-
+        return result
 
 
 
 # Main method to run the code
-# if __name__ == "__main__":
-#     compName = sys.argv[1]
-#     if compName:
-#         compTicker = stock_data().get_stockSymbol(compName)
-#         print(f'\n {compName} \n')
-#         print(stock_data().get_stock_data(compTicker, compName ))
+if __name__ == "__main__":
+
+    compName = sys.argv[1]
+    days_to_predict = int(sys.argv[2])
+
+    if compName and days_to_predict:
+        compTicker = stock_data().get_stockSymbol(compName)
+        if compTicker:
+            print(stock_data().get_company_prediction(compTicker, days_to_predict))
+        else:
+            print("wrong company name")
+    
+    else:
+        print("Missing Argument: Result cannot be producted")
 
