@@ -107,7 +107,7 @@ class stock_data:
             
             date_in_str.append(d)
 
-        stock_data = list(prediction['yhat'].iloc[:num_days_to_predict])
+        stock_data = list(prediction['yhat'].iloc[:-num_days_to_predict])
 
         pred_data = list(prediction['yhat'].iloc[-num_days_to_predict:])
         
@@ -117,23 +117,21 @@ class stock_data:
         
         result['stock_pred_values'] = pred_data
 
-        result = json.dumps(result)
-
         return result
 
 # Main method to run the code
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
-    compName = sys.argv[1]
-    days_to_predict = int(sys.argv[2])
+#     compName = sys.argv[1]
+#     days_to_predict = int(sys.argv[2])
 
-    if compName and days_to_predict:
-        compTicker = stock_data().get_stockSymbol(compName)
-        if compTicker:
-            print(stock_data().get_company_prediction(compTicker, days_to_predict))
-        else:
-            print("wrong company name")
+#     if compName and days_to_predict:
+#         compTicker = stock_data().get_stockSymbol(compName)
+#         if compTicker:
+#             print(stock_data().get_company_prediction(compTicker, days_to_predict))
+#         else:
+#             print("wrong company name")
     
-    else:
-        print("Missing Argument: Result cannot be producted")
+#     else:
+#         print("Missing Argument: Result cannot be producted")
 
