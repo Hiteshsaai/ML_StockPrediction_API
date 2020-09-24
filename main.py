@@ -5,7 +5,7 @@ import json
 import ast
 import sys
 import yfinance as yf
-from pandas_datareader import data as pdr
+# from pandas_datareader import data as pdr
 from datetime import datetime
 from fbprophet import Prophet
 import json
@@ -107,9 +107,11 @@ class stock_data:
             
             date_in_str.append(d)
 
-        stock_data = list(prediction['yhat'].iloc[:-num_days_to_predict])
+        stock_data = list(close_price['y'])
 
         pred_data = list(prediction['yhat'].iloc[-num_days_to_predict:])
+
+        result['Company_Ticker'] = comp_ticker
         
         result['date'] =  date_in_str
         
@@ -119,19 +121,21 @@ class stock_data:
 
         return result
 
+
+
 # Main method to run the code
-# if __name__ == "__main__":
+if __name__ == "__main__":
 
-#     compName = sys.argv[1]
-#     days_to_predict = int(sys.argv[2])
+    compName = "microsoft"
+    days_to_predict = 90
 
-#     if compName and days_to_predict:
-#         compTicker = stock_data().get_stockSymbol(compName)
-#         if compTicker:
-#             print(stock_data().get_company_prediction(compTicker, days_to_predict))
-#         else:
-#             print("wrong company name")
-    
-#     else:
-#         print("Missing Argument: Result cannot be producted")
+    if compName and days_to_predict:
+        compTicker = stock_data().get_stockSymbol(compName)
+        if compTicker:
+            print(stock_data().get_company_prediction(compTicker, days_to_predict))
+        else:
+            print("wrong company name")
+
+    else:
+        print("Missing Argument: Result cannot be producted")
 
