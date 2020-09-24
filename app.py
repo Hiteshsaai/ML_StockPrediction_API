@@ -1,9 +1,9 @@
 #Importing the required dependencies
 from flask import Flask, jsonify, request
-from Stock_prediction_backend import stock_data
+from main import stock_data
 
 
-# Initializing the app
+# Initializing the app 
 app = Flask(__name__)
 
 
@@ -11,7 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods = ['GET'])
 def index():
     Intro =  "Welcome to Stock prediction app\nUse the company name and preriod to predict in following order: \n \
-    http://127.0.0.1:5000/[COMPANY NAME]/[DURATION]"
+    https://stockprediction-ml.herokuapp.com/[COMPANY NAME]/[DURATION] \n NOTE: if Company has two names you can use space in the url endpoint (Eg:General Motors)"
 
     return Intro
 
@@ -27,7 +27,5 @@ def stock_values(compName, predict_period):
     
 if __name__ == "__main__":
     app.run(debug = True)
-
-
 
 
