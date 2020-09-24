@@ -29,7 +29,7 @@ Take a look at some Examples,
   
 <ins> Example2 </ins>
 - If the company name has two names or space between names mention the company name with space itself or else api wont be able to recognize, like below,
-  -- Do this: ```https://stockprediction-ml.herokuapp.com/general motors/365``` :heavy_check_mark:
+  -- Do this: ```https://stockprediction-ml.herokuapp.com/general motors/365``` :heavy_check_mark: </br>
   -- Not this: ```https://stockprediction-ml.herokuapp.com/generalmotors/365```
   -- This link will tempt to return stock predictions for **General Motors** for the next **365** working days.
 
