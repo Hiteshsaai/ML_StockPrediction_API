@@ -24,12 +24,13 @@ To get the stock predicted values for different companies, you have to mention t
 Take a look at some Examples,
 
 <ins> Example1 </ins>
-- https://stockprediction-ml.herokuapp.com/tesla/100 </br>
+- ```https://stockprediction-ml.herokuapp.com/tesla/100``` </br>
   -- This link will tempt to return stock predictions for **TESLA** for the next **100** working days.
   
 <ins> Example2 </ins>
-- If the company name has two names or space between names mention the company name with space itself, like below,
-  -- https://stockprediction-ml.herokuapp.com/general motors/365
+- If the company name has two names or space between names mention the company name with space itself or else api wont be able to recognize, like below,
+  -- Do this: ```https://stockprediction-ml.herokuapp.com/general motors/365``` :heavy_check_mark:
+  -- Not this: ```https://stockprediction-ml.herokuapp.com/generalmotors/365```
   -- This link will tempt to return stock predictions for **General Motors** for the next **365** working days.
 
 
