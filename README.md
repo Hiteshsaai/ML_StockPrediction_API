@@ -36,7 +36,7 @@ Take a look at some Examples,
   - Not this: https://stockprediction-hitesh-ml.herokuapp.com/generalmotors/365
   ```
 
-  - This link will tempt to return stock predictions for **General Motors** for the next **365** working days.
+  - The above example link will tempt to return stock predictions for **General Motors** for the next **365** working days.
 
 
 
