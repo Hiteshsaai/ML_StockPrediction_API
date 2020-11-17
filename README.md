@@ -10,9 +10,9 @@ It is a REST API which predicts the future stock values of company. This API ret
 - **Predicted Stock values** *(Based on Mentioned duration)*
 - **Exisiting Stock values** 
 
-## Machine Learning Technique
+## Technique Used
 
-We have use ARIM (Auto regression Intergrated Moving Avreage) technique to predict the stock values with normalization. 
+We have use ARIM (Auto regression Intergrated Moving Avreage) & Prophet model technique to predict the stock values with normalization. 
 
 
 ## How to use?
