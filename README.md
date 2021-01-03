@@ -1,6 +1,6 @@
 <img src="stock_prediction.png" align="center" />
 
-# Machine Learning StockPrediction API
+# ML StockPrediction API
 
 ## About
 
