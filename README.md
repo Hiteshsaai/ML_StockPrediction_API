@@ -19,7 +19,9 @@ We have use ARIM (Auto regression Intergrated Moving Avreage) & Prophet model me
 
 Use the following link below  </br>
 
+```diff
 https://ml-stockprediction-hitesh.herokuapp.com/
+```
 
 To get the stock predicted values for different companies, you have to mention the company-name and prediction duration. </br>
 
