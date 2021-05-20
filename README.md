@@ -19,7 +19,7 @@ We have use ARIM (Auto regression Intergrated Moving Avreage) & Prophet model me
 
 Use the following link below  </br>
 
-https://stockprediction-hitesh-ml.herokuapp.com/
+https://ml-stockprediction-hitesh.herokuapp.com/
 
 To get the stock predicted values for different companies, you have to mention the company-name and prediction duration. </br>
 
@@ -32,8 +32,8 @@ Take a look at some Examples,
 <ins> Example2 </ins>
 - If the company name has two names or space between names mention the company name with space itself or else api wont be able to recognize, like below,
   ```diff
-  + Do this: https://stockprediction-hitesh-ml.herokuapp.com/general motors/365
-  - Not this: https://stockprediction-hitesh-ml.herokuapp.com/generalmotors/365
+  + Do this: https://ml-stockprediction-hitesh.herokuapp.com/general motors/365
+  - Not this: https://ml-stockprediction-hitesh.herokuapp.com/generalmotors/365
   ```
 
   - The above example link will tempt to return stock predictions for **General Motors** for the next **365** working days.
